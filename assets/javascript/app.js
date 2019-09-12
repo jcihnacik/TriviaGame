@@ -85,19 +85,54 @@ var correctCounter = 0;
 var unansweredCounter = 0;
 var clock;
 var quizTimeout;
+var answer;
+
+function loadQuestions() {
+    console.log("Load question function called");
+    // $("#question1").html(questions[0].question);
+    for (var i = 0; i < questions.length; i++) {
+        for (letter in questions[i].answers) {
+
+            // ...add an html radio button
+            answers.push(
+                '<label>'
+                + '<input type="radio" name="question' + i + '" value="' + letter + '">'
+                + letter + ': '
+                + questions[i].answers[letter]
+                + '</label>'
+            );
+        }
+
+        // add this question and its answers to the output
+        output.push(
+            '<div class="question">' + questions[i].question + '</div>'
+            + '<div class="answers">' + answers.join('') + '</div>'
+        );
+    }
+
+    // finally combine our output list into one string of html and put it on the page
+    quizContainer.innerHTML = output.join('');
+}
+
+    
+
+    
+
 
 
 function startGame() {
     $('#start-page').css('display', 'none');
-    $('#game-page').css('visibility', 'visible');
+    // $('#game-page').css('visibility', 'visible');
     quizTimeout = setTimeout(function () {
         alert("Time's up!");
-    }, 90000);
+    }, 90000); loadQuestions();
+
 };
 
 
 $(document).ready(function () {
     $('#startbutton').click(function () {
         startGame();
-    })
+    });
+
 })
