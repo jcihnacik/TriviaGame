@@ -1,138 +1,141 @@
+var clock;
+let numCorrect = 0;
+let numIncorrect = 0;
+let numUnanswered = 0;
+let playerAnswer = [];
+
 var questions = [
     {
         question: 'What is the capital of Mongolia?',
         answers: [
-            { answer: 'A. Mörön', value: false },
-            { answer: 'B. Kuala Lumpur', value: false },
-            { answer: 'C. Ulaanbaatar', value: true },
-            { answer: 'D. Moscow', value: false },
-        ]
+            'Mörön',
+            'Kuala Lumpur',
+            'Ulaanbaatar',
+            'Moscow',
+        ],
+        solution: 2
     },
 
     {
         question: 'Which of these cities was NOT ranked as an Alpha+ Global City by the Globalization and World Cities Research Network in 2018?',
         answers: [
-            { answer: 'A. Hong Kong', value: false },
-            { answer: 'B. London', value: true },
-            { answer: 'C. Dubai', value: false },
-            { answer: 'D. Tokyo', value: false },
-        ]
+            'Hong Kong',
+            'London',
+            'Dubai',
+            'Tokyo',
+        ],
+        solution: 1
     },
 
     {
         question: 'Which of these countries is a member of both the Schengen Zone AND the EU?',
         answers: [
-            { answer: 'A. Czech Republic', value: true },
-            { answer: 'B. United Kingdom', value: false },
-            { answer: 'C. Norway', value: false },
-            { answer: 'D. Turkey', value: false },
-        ]
+            'Czech Republic',
+            'United Kingdom',
+            'Norway',
+            'Turkey',
+        ],
+        solution: 0
     },
 
     {
         question: 'Which of the following landlocked countries has the largest area?',
         answers: [
-            { answer: 'A. Afghanistan', value: false },
-            { answer: 'B. Mongolia', value: false },
-            { answer: 'C. Mali', value: false },
-            { answer: 'D. Kazakhstan', value: true },
-        ]
+            'Afghanistan',
+            'Mongolia',
+            'Mali',
+            'Kazakhstan',
+        ],
+        solution: 3
     },
 
     {
         question: 'Which continent is home to the driest place on Earth?',
         answers: [
-            { answer: 'A. Antarctica', value: true },
-            { answer: 'B. South America', value: false },
-            { answer: 'C. Africa', value: false },
-            { answer: 'D. North America', value: false },
-        ]
+            'Antarctica',
+            'South America',
+            'Africa',
+            'North America',
+        ],
+        solution: 0
     },
 
     {
         question: 'Before its name change in 2018, what was the Kingdom of eSwatini known as?',
         answers: [
-            { answer: 'A. Ethiopia', value: false },
-            { answer: 'B. Lesotho', value: false },
-            { answer: 'C. Mauritania', value: false },
-            { answer: 'D. Swaziland', value: true },
-        ]
+            'Ethiopia',
+            'Lesotho',
+            'Mauritania',
+            'Swaziland',
+        ],
+        solution: 3
     },
 
     {
         question: 'Which two countries were signatories of the Treaty of Tordesillas?',
         answers: [
-            { answer: 'A. Castile and Leon', value: false },
-            { answer: 'B. Portugal and Brazil', value: false },
-            { answer: 'C. Spain and Portugal', value: true },
-            { answer: 'B. Spain and Mexico', value: false },
-        ]
+            'Castile and Leon',
+            'Portugal and Brazil',
+            'Spain and Portugal',
+            'Spain and Mexico',
+        ],
+        solution: 2
     },
 
     {
         question: 'How many member states does the EEU have?',
         answers: [
-            { answer: 'A. 5', value: true },
-            { answer: 'B. 26', value: false },
-            { answer: 'C. 28', value: false },
-            { answer: 'D. 9', value: false },
-        ]
+            '5',
+            '26',
+            '28',
+            '9',
+        ],
+        solution: 0
     },
 ];
 
-var wrongCounter = 0;
-var correctCounter = 0;
-var unansweredCounter = 0;
-var clock;
-var quizTimeout;
-var answer;
 
-function loadQuestions() {
-    console.log("Load question function called");
-    // $("#question1").html(questions[0].question);
-    for (var i = 0; i < questions.length; i++) {
-        for (letter in questions[i].answers) {
-
-            // ...add an html radio button
-            answers.push(
-                '<label>'
-                + '<input type="radio" name="question' + i + '" value="' + letter + '">'
-                + letter + ': '
-                + questions[i].answers[letter]
-                + '</label>'
-            );
-        }
-
-        // add this question and its answers to the output
-        output.push(
-            '<div class="question">' + questions[i].question + '</div>'
-            + '<div class="answers">' + answers.join('') + '</div>'
-        );
-    }
-
-    // finally combine our output list into one string of html and put it on the page
-    quizContainer.innerHTML = output.join('');
-}
-
-    
-
-    
-
-
-
-function startGame() {
-    $('#start-page').css('display', 'none');
-    // $('#game-page').css('visibility', 'visible');
-    quizTimeout = setTimeout(function () {
-        alert("Time's up!");
-    }, 90000); loadQuestions();
-
-};
 
 
 $(document).ready(function () {
-    $('#startbutton').click(function () {
-        startGame();
-    });
+    $("#start-button").click(startGame());
+    $("#submit-button").click(getResults());
+});
 
-})
+function loadQuestions() {
+    for (var i = 0; i < questions.length; i++) {
+        $("#quiz-page").append(questions[i].question + "<br>");
+        for (var j = 0; j < questions[i].answers.length; j++) {
+            $("#quiz-page").append("<label class='radio'><input value='" + j + "' type='radio' name='" + i + "'>" + questions[i].answers[j] + "</label>" + "<br><br>");
+        }
+    }
+};
+
+function loadSubmit() {
+    $("#quiz-page").append('<button id="submit-button">Submit</button>');
+};
+
+function startGame() {
+    $("#start-page").hide();
+    quizTimeout = setTimeout(function () {
+        alert("Time's up!");
+    }, 90000);
+    loadQuestions();
+    loadSubmit();
+
+};
+
+function getResults() {
+    $("#quiz-page").hide();
+    for (i = 0; i < questions.length; i++) {
+        if (questions[i].solution == playerAnswer[i]) {
+            numCorrect++;
+        }
+        else if (playerAnswer[i] === null) {
+            numUnanswered++;
+        }
+        else {
+            numIncorrect++;
+        }
+    }
+}
