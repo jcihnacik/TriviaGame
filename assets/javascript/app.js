@@ -1,8 +1,4 @@
 var clock;
-let numCorrect = 0;
-let numIncorrect = 0;
-let numUnanswered = 0;
-let playerAnswer = [];
 
 var questions = [
     {
@@ -19,9 +15,9 @@ var questions = [
     {
         question: 'Which of these cities was NOT ranked as an Alpha+ Global City by the Globalization and World Cities Research Network in 2018?',
         answers: [
-            'Hong Kong',
-            'London',
-            'Dubai',
+            'Hong Kong', 
+            'London', 
+            'Dubai', 
             'Tokyo',
         ],
         solution: 1
@@ -30,10 +26,10 @@ var questions = [
     {
         question: 'Which of these countries is a member of both the Schengen Zone AND the EU?',
         answers: [
-            'Czech Republic',
-            'United Kingdom',
-            'Norway',
-            'Turkey',
+            'Czech Republic', 
+            'United Kingdom', 
+            'Norway', 
+            'Turkey', 
         ],
         solution: 0
     },
@@ -41,10 +37,10 @@ var questions = [
     {
         question: 'Which of the following landlocked countries has the largest area?',
         answers: [
-            'Afghanistan',
-            'Mongolia',
-            'Mali',
-            'Kazakhstan',
+            'Afghanistan', 
+            'Mongolia', 
+            'Mali', 
+            'Kazakhstan', 
         ],
         solution: 3
     },
@@ -52,10 +48,10 @@ var questions = [
     {
         question: 'Which continent is home to the driest place on Earth?',
         answers: [
-            'Antarctica',
-            'South America',
-            'Africa',
-            'North America',
+            'Antarctica', 
+            'South America', 
+            'Africa', 
+            'North America', 
         ],
         solution: 0
     },
@@ -63,10 +59,10 @@ var questions = [
     {
         question: 'Before its name change in 2018, what was the Kingdom of eSwatini known as?',
         answers: [
-            'Ethiopia',
-            'Lesotho',
-            'Mauritania',
-            'Swaziland',
+            'Ethiopia', 
+            'Lesotho', 
+            'Mauritania', 
+            'Swaziland', 
         ],
         solution: 3
     },
@@ -74,10 +70,10 @@ var questions = [
     {
         question: 'Which two countries were signatories of the Treaty of Tordesillas?',
         answers: [
-            'Castile and Leon',
-            'Portugal and Brazil',
-            'Spain and Portugal',
-            'Spain and Mexico',
+            'Castile and Leon', 
+            'Portugal and Brazil', 
+            'Spain and Portugal', 
+            'Spain and Mexico', 
         ],
         solution: 2
     },
@@ -85,10 +81,10 @@ var questions = [
     {
         question: 'How many member states does the EEU have?',
         answers: [
-            '5',
-            '26',
-            '28',
-            '9',
+            '5', 
+            '26', 
+            '28', 
+            '9', 
         ],
         solution: 0
     },
@@ -98,20 +94,20 @@ var questions = [
 
 
 $(document).ready(function () {
-    $("#start-button").click(startGame());
-    $("#submit-button").click(getResults());
+$("#start-button").click(startGame());
+$("#submit-button").click(getResults());
 });
 
-function loadQuestions() {
-    for (var i = 0; i < questions.length; i++) {
-        $("#quiz-page").append(questions[i].question + "<br>");
-        for (var j = 0; j < questions[i].answers.length; j++) {
-            $("#quiz-page").append("<label class='radio'><input value='" + j + "' type='radio' name='" + i + "'>" + questions[i].answers[j] + "</label>" + "<br><br>");
+function loadQuestions(){
+    for (var i=0; i <questions.length; i++){
+        $("#quiz-page").append(questions[i].question+"<br>");
+        for (var j = 0; j < questions[i].answers.length; j++){
+            $("#quiz-page").append("<label class='radio'><input value='" + j + "' type='radio' name='" + i + "'>" + questions[i].answers[j] + "</label>"+"<br><br>");
         }
     }
 };
 
-function loadSubmit() {
+function loadSubmit(){
     $("#quiz-page").append('<button id="submit-button">Submit</button>');
 };
 
@@ -119,23 +115,8 @@ function startGame() {
     $("#start-page").hide();
     quizTimeout = setTimeout(function () {
         alert("Time's up!");
-    }, 90000);
-    loadQuestions();
-    loadSubmit();
+       }, 90000); 
+       loadQuestions();
+       loadSubmit();
 
 };
-
-function getResults() {
-    $("#quiz-page").hide();
-    for (i = 0; i < questions.length; i++) {
-        if (questions[i].solution == playerAnswer[i]) {
-            numCorrect++;
-        }
-        else if (playerAnswer[i] === null) {
-            numUnanswered++;
-        }
-        else {
-            numIncorrect++;
-        }
-    }
-}
